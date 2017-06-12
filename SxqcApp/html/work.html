@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html >
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../css/font-icons.css">
+        <link rel="stylesheet" type="text/css" href="../css/islider.css">
+        <link rel="stylesheet" href="../css/iscroll.css">
+
+         <style>
+        	.msg-info {
+        		position: relative;
+        	}
+        	.msg-info .um-badge {
+        		position: absolute;
+        		right: -10px;
+        		font-size: 12px;
+        	}
+        	.msg-header {
+        		width: 40px;
+        		height: 40px;
+        		line-height: 40px;
+        		background: blue;
+        		border-radius: 50%;
+        		text-align: center;
+        		color: white;
+        	}
+        	.pullDown .pullDownIcon, .pullUp .pullUpIcon  {
+                    display: inline-block;
+                    width:40px; height:40px;
+                    background:url(../img/pull-icon@2x.png) 0 0 no-repeat;
+                    -webkit-background-size:40px 80px; background-size:40px 80px;
+                    -webkit-transition-property:-webkit-transform;
+                    -webkit-transition-duration:250ms;
+                    vertical-align: middle;
+                    margin: 0 5px;
+                }
+        </style>
+
+        <style>
+        	.iSlider-wrapper {
+        		height: 150px;
+        	}
+        </style>
+	
+		<script src="../js/summer.js" ></script>
+		<script src="../js/jquery.min.js" ></script>
+		<script src="../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+        <script type="text/javascript" src="../js/islider.js"></script>
+        <script>
+        	summerready = function () {
+        		$(function() {
+        			var list = [
+        				{
+        					content: "../img/g1.jpg"
+        				}, 
+        				{
+        					content: "../img/g2.jpg"
+        				}, 
+        				{
+        					content: "../img/g3.jpg"
+        				}
+        			];
+        			var islider = new iSlider({
+        				type: 'pic',
+        				data: list,
+        				dom: document.getElementById("iSlider-wrapper"),
+        				isLooping: true,
+        				animateType: 'default',
+        				isAutoplay: true,
+        				animateTime: 800
+        			});
+        			islider.addDot();
+        		})
+        	}
+        </script>
+        <script type="text/javascript" src="../js/knockout.js"></script>
+        <script src="../js/iscroll.js"></script>
+        <script src="../js/iscrollconfig.js"></script>
+	</head>
+	<body>
+		<div class="um-win my">
+			<div class="um-header">
+				
+                <div class="um-row"><div id="iSlider-wrapper" class="iSlider-wrapper"></div></div>
+				<div class="um-label um-box-justify ">
+                	<div><i class="ti-email f16"></i><span class="p15 f16">工作任务</span></div>
+                	<div>
+                		<span class="um-green mr15"></span><i class="ti-more pr10 f16"></i>
+                	</div>
+                </div>
+			</div>
+			<div class="um-content">
+				
+                <div id="wrapper" style="top:202px;bottom:0;">
+                	<div class="uScrollList"> 
+                		<ul class="um-list um-no-active" data-bind="foreach: data">
+                			<li class="um-listview-row">
+                				<a href="#" class="um-list-item um-swipe-action um-no-icon">
+                				<div class="um-list-item-media msg-info">
+                					<img alt="" data-bind="attr:{'src': img}" width=50>
+                					<span class="um-badge" data-bind="text:msgNum,visible:msgNum>0"></span>
+                				</div>
+                				<div class="um-list-item-inner">
+                					<div class="um-list-item-body">
+                						<h4 class="um-media-heading fb f16 um-text-overflow" data-bind="text:sender"></h4>
+                						<p class="um-gray f14 um-text-overflow" data-bind="text:lastMsg"></p>
+                					</div>
+                					<div class="pr10">
+                						<span class="um-gray f12" data-bind="text:lastTime"></span>
+                					</div>
+                				</div> </a>
+                			</li>
+                		</ul>	 
+                	</div>
+                </div>
+
+			</div>
+		</div>
+
+        <script>
+        	//1、数据模型加载，与控件无关
+        	var ViewModel = function() {
+        	};
+        	var jsonArray = [{
+        		"sender" : "集团IT服务台",
+        		"img" : "../img/org1.png",
+        		"msgNum" : 0,
+        		"lastMsg" : "因无线网络后台故障，暂停服务。",
+        		"lastTime" : "15:24"
+        	}, {
+        		"sender" : "集团行政部",
+        		"img" : "../img/org2.png",
+        		"msgNum" : 4,
+        		"lastMsg" : "各位同仁，2015年4季度油料报销标准5.85元/升。",
+        		"lastTime" : "12:40"
+        	}, {
+        		"sender" : "集团人力资源部",
+        		"img" : "../img/org3.png",
+        		"msgNum" : 5,
+        		"lastMsg" : "各位同仁，跟据国务院发布的放假安排，2016年元旦、春节放假安排如下。",
+        		"lastTime" : "12:21"
+        	},{
+        		"sender" : "集团IT服务台",
+        		"img" : "../img/org1.png",
+        		"msgNum" : 0,
+        		"lastMsg" : "因无线网络后台故障，暂停服务。",
+        		"lastTime" : "15:24"
+        	}, {
+        		"sender" : "集团行政部",
+        		"img" : "../img/org2.png",
+        		"msgNum" : 4,
+        		"lastMsg" : "各位同仁，2015年4季度油料报销标准5.85元/升。",
+        		"lastTime" : "12:40"
+        	}, {
+        		"sender" : "集团人力资源部",
+        		"img" : "../img/org3.png",
+        		"msgNum" : 5,
+        		"lastMsg" : "各位同仁，跟据国务院发布的放假安排，2016年元旦、春节放假安排如下。",
+        		"lastTime" : "12:21"
+        	},{
+        		"sender" : "集团IT服务台",
+        		"img" : "../img/org1.png",
+        		"msgNum" : 0,
+        		"lastMsg" : "因无线网络后台故障，暂停服务。",
+        		"lastTime" : "15:24"
+        	}, {
+        		"sender" : "集团行政部",
+        		"img" : "../img/org2.png",
+        		"msgNum" : 4,
+        		"lastMsg" : "各位同仁，2015年4季度油料报销标准5.85元/升。",
+        		"lastTime" : "12:40"
+        	}, {
+        		"sender" : "集团人力资源部",
+        		"img" : "../img/org3.png",
+        		"msgNum" : 5,
+        		"lastMsg" : "各位同仁，跟据国务院发布的放假安排，2016年元旦、春节放假安排如下。",
+        		"lastTime" : "12:21"
+        	}];
+        
+        	var viewModel = new ViewModel();
+        	viewModel.data = ko.observableArray(jsonArray);
+        	ko.applyBindings(viewModel);
+        	//var ilist = UM.iScrollList("#wrapper");
+        </script>
+        <script type="text/javascript">
+        	// Functions to simulate "refresh" and "load" on pull-down/pull-up
+        	function pullDownAction(theScroller) {
+        		setTimeout(function() {// <-- Simulate network congestion, remove setTimeout from production!
+        			for (var i = 0,
+        				len = 1; i < len; i++) {
+        				viewModel.data.unshift({
+        					"sender" : "集团行政部",
+        					"img" : "../img/b" + i % 3 + ".png",
+        					"msgNum" : i % 5,
+        					"lastMsg" : "各位同仁，2015年4季度油料报销标准5.85元/升。",
+        					"lastTime" : "12:40"
+        				});
+        			}
+        			theScroller.refresh();
+        			//数据加载完成后，调用界面更新方法   Remember to refresh when contents are loaded (ie: on ajax completion)
+        		}, 1000);
+        	}
+        	//上拉加载更多数据代码, 还需放开iscrollconfig.js内pullUpActionHandler代码方可实现上拉加载更多功能
+          	function pullUpAction(theScroller) {
+        		setTimeout(function() {// <-- Simulate network congestion, remove setTimeout from production!
+        			for (var i = 0,
+        				len = 5; i < len; i++) {
+        				viewModel.data.push({
+        					"sender" : "集团行政部",
+        					"img" : "../img/b" + i % 3 + ".png",
+        					"msgNum" : i % 5,
+        					"lastMsg" : "各位同仁，2015年4季度油料报销标准5.85元/升。",
+        					"lastTime" : "12:40"
+        				});
+        			}
+        			theScroller.refresh();
+        			// 数据加载完成后，调用界面更新方法 Remember to refresh when contents are loaded (ie: on ajax completion)
+        		}, 1000);
+        		// <-- Simulate network congestion, remove setTimeout from production!
+        	}
+         
+        	var scroller1 = new IScrollPullUpDown('wrapper', {
+        		probeType : 2,
+        		bounceTime : 250,
+        		bounceEasing : 'quadratic',
+        		mouseWheel : true,
+        		scrollbars : true,
+        		fadeScrollbars : true,
+        		interactiveScrollbars : true
+        	}, pullDownAction, pullUpAction);
+        	document.addEventListener('touchmove', function(e) {
+        		e.preventDefault();
+        	}, false);
+        </script>
+	</body>
+</html>

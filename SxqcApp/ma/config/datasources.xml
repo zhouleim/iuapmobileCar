@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsset>
+
+	<datasource id="emm_url">
+		<url>http://172.16.50.238:65/test</url>
+	</datasource>	
+	
+</dsset>

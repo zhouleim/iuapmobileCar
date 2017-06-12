@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../css/font-icons.css">	
+		<script src="../js/jquery.min.js" ></script>
+		<script src="../js/summer.js" ></script>
+		<script src="../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+        <script type="text/javascript" src="../js/knockout.js"></script>
+
+		<script>
+			function $pageReady() {
+				/*这里编写与原生服务相关的代码逻辑，例如对原生设备服务的调用，对网络服务的调用等*/
+				//alert("Mobile Native Ready");
+			}
+
+			function refulshNextDate(vehicleId){
+            	var urlStr = "http://10.180.3.119:8080/dms.web/dmsMobile/customerManage/vehicle/"+vehicleId+"?dmsFuncId=302002"
+				
+				var currentToken = summer.getStorage("currentToken_URL");
+				if(null != currentToken){
+					urlStr = urlStr + "&urlToken="+currentToken;
+				}
+				
+				var cur_sessionId = summer.getStorage("cur_sessionId");
+				if(null != cur_sessionId){
+					urlStr = urlStr + "&JSESSIONID="+cur_sessionId;
+				}
+				
+				$.ajax({
+					type: 'get',
+					url: urlStr,
+					dataType: 'json',
+					contentType: "application/json ; charset=utf-8",
+					success: function(data) {
+						var viewModel = data;
+						ko.applyBindings(viewModel);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest.errorMsg);
+					}
+				})
+            }
+			summerready=function(){
+				var vehicleId = summer.pageParam.vehicleId;
+				refulshNextDate(vehicleId);
+			}
+		</script>
+	</head>
+	<body>
+		<div class="um-page" id="index">
+			<div class="um-header" >
+				<a href="#" class="um-back" onclick="summer.closeWin()"> 返回</a>
+				<h3>车辆信息明细</h3>
+			</div>
+			<div class="um-content">
+				<ul class="um-list" style="margin:30px 0px">
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									经销商代码
+								</div>
+								<div class="um-list-item-right">
+									<input type="text" class="form-control" data-bind ="value:dealer_code" placeholder="经销商代码">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									VIN
+								</div>
+								<div class="um-list-item-right">
+									<input type="password" class="form-control" data-bind ="value:vin" placeholder="VIN">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									车牌号
+								</div>
+								<div class="um-list-item-right">
+									<input type="license" class="form-control" data-bind ="value:config_code" placeholder="车牌号">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									发送机号
+								</div>
+								<div class="um-list-item-right">
+									<input type="engineNo" class="form-control" data-bind ="value:ct_code" placeholder="发送机号">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									联系人
+								</div>
+								<div class="um-list-item-right">
+									<input type="contractName" class="form-control" data-bind ="value:owner_name" placeholder="联系人">
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="um-list-item">
+							<div class="um-list-item-inner">
+								<div class="um-list-item-left">
+									地址
+								</div>
+								<div class="um-list-item-right">
+									<input type="address" class="form-control" data-bind ="value:address" placeholder="地址">
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

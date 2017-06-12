@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="../css/iuapmobile.um.css">
+		<link rel="stylesheet" href="../css/font-icons.css">
+        <link rel="stylesheet" type="text/css" href="../css/iuapmobile.um.listview.css">
+        <link rel="stylesheet" type="text/css" href="../css/islider.css">
+        <style>
+        	.iSlider-wrapper {
+        		height: 150px;
+        	}
+        </style>
+
+
+        <style>
+        	.listview-detail {
+        		overflow: hidden;
+        		text-overflow: ellipsis;
+        		display: -webkit-box;
+        		-webkit-line-clamp: 2;
+        		-webkit-box-orient: vertical;
+        	}
+        </style>
+
+		<script src="../js/summer.js" ></script>
+		<script src="../js/jquery.min.js" ></script>
+		<script src="../js/Frameworks/iuapmobile.frameworks.ui.js" ></script>
+	 
+        <script type="text/javascript" src="../js/knockout.js"></script>
+        <script type="text/javascript" src="../js/Frameworks/iuapmobile.frameworks.listview.js"></script>
+        <script type="text/javascript" src="../js/islider.js"></script>
+        <script>
+        	summerready = function () {
+        		$(function() {
+        			var list = [
+        				{
+        					content: "../img/g1.jpg"
+        				}, 
+        				{
+        					content: "../img/g2.jpg"
+        				}, 
+        				{
+        					content: "../img/g3.jpg"
+        				}
+        			];
+        			var islider = new iSlider({
+        				type: 'pic',
+        				data: list,
+        				dom: document.getElementById("iSlider-wrapper"),
+        				isLooping: true,
+        				animateType: 'default',
+        				isAutoplay: true,
+        				animateTime: 800
+        			});
+        			islider.addDot();
+        		})
+        	}
+        </script>
+	</head>
+	<body>
+		<div class="um-win message"  >
+		
+        	<div class="um-header" id='header'>
+            	
+                <div class="um-row"><div id="iSlider-wrapper" class="iSlider-wrapper"></div></div>
+				<div class="um-label um-box-justify ">
+                    	<div><i class="ti-email f16"></i><span class="p15 f16">通知/公告</span></div>
+                    	<div>
+                    		<span class="um-green mr15"></span><i class="ti-more pr10 f16"></i>
+                    	</div>
+                    </div>
+			</div>
+
+			<div  class="um-content ">
+				
+				<!-- 通知公告 start -->
+                <div class="um-listview-wrap" id="listview">
+                    
+
+                	<ul class="um-list um-no-active" data-bind="foreach:data">
+                		<li class="um-listview-row">
+                			<a href="#" class="um-list-item um-swipe-action um-no-icon">
+                				<div class="um-swipe-btns">
+                					<span class="um-swipe-btn um-delete ti-trash"></span>
+                				</div>
+                				<div class="um-list-item-media">
+                					<img alt="" height=74 src="../img/news1.png">
+                				</div>
+                				<div class="um-list-item-inner">
+                					<div class="um-list-item-body" style="padding-right:5px;">
+                						<div data-bind="text:BRAND_NAME" class="fb f16 um-text-overflow"></div>
+                						<div data-bind="text:VIN" class="fb f16 um-text-overflow">
+                						</div>
+                							<span class="rownumid" data-bind = "text:VEHICLE_ID"></span>
+                						<div>
+                							<span data-bind="text:MODEL_NAME" class="f14 um-gray listview-detail" style="height:40px;"></span>
+                						</div>
+                
+                					</div>
+                				</div>
+                			</a>
+                		</li>
+                	</ul>
+                </div>
+				<!-- 通知公告 end -->
+			</div>
+		</div>
+ 
+
+        <script>
+            $(function () {		
+                //Knockout绑定
+                var ViewModel = function () {};		
+                var jsonArray = [
+                ];
+                var viewModel = new ViewModel();
+        		viewModel.data = ko.observableArray(jsonArray);
+                ko.applyBindings(viewModel);
+                
+                var limitNum = 3;
+                var offsetNum = 0;
+                
+                function refulshDate(){
+                	var urlStr = "http://10.180.3.119:8080/dms.web/dmsMobile/customerManage/vehicle?dmsFuncId=302002&sort=VIN&order=asc"
+					urlStr = urlStr + "&limit="+limitNum+"&offset="+offsetNum;
+					var currentToken = summer.getStorage("currentToken_URL");
+					
+					if(null != currentToken){
+						urlStr = urlStr + "&urlToken="+currentToken;
+					}
+					var cur_sessionId = summer.getStorage("cur_sessionId");
+					
+					if(null != cur_sessionId){
+						urlStr = urlStr + "&JSESSIONID="+cur_sessionId;
+					}
+					
+					var tenantId = summer.getStorage("tenantId");
+					
+					if(null != tenantId){
+						urlStr = urlStr + "&tenantId="+tenantId;
+					}
+				/*	 
+					
+					$.ajax({
+						type: 'get',
+						url: urlStr,
+						dataType: 'json',
+						contentType: "application/json ; charset=utf-8",
+						success: function(data) {
+							viewModel.data.removeAll();
+							//viewModel.data.push(data.rows);
+							var rowDateArr = data.rows;
+							for(var i=0;i<rowDateArr.length;i++){
+								viewModel.data.push(rowDateArr[i]);
+							}
+							
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.errorMsg);
+						}
+					})
+					
+					*/
+					summer.ajax({
+						type : "get",
+						url : urlStr,
+					},function(data){
+						viewModel.data.removeAll();
+							//viewModel.data.push(data.rows);
+							var rowDateArr = data.rows;
+							for(var i=0;i<rowDateArr.length;i++){
+								viewModel.data.push(rowDateArr[i]);
+							}
+					},function(response){
+						 alert(JSON.stringify(response));
+					})
+                }
+                
+                
+                function refulshNextDate(){
+                	var urlStr = "http://10.180.3.119:8080/dms.web/dmsMobile/customerManage/vehicle?dmsFuncId=302002&sort=VIN&order=asc"
+					//获取下一页的开始条数
+					offsetNum = offsetNum+limitNum;
+					urlStr = urlStr + "&limit="+limitNum+"&offset="+offsetNum;
+					var currentToken = summer.getStorage("currentToken_URL");
+					
+					if(null != currentToken){
+						urlStr = urlStr + "&urlToken="+currentToken;
+					}
+					
+					var cur_sessionId = summer.getStorage("cur_sessionId");
+					
+					if(null != cur_sessionId){
+						urlStr = urlStr + "&JSESSIONID="+cur_sessionId;
+					}
+					/**summer.get(urlStr, {
+					}, {
+					}, function(data) {
+						//追加信息
+						viewModel.data.push(data.rows);
+					}, function(response) {
+					    alert(response.error);
+					});**/
+					
+					$.ajax({
+						type: 'get',
+						url: urlStr,
+						dataType: 'json',
+						contentType: "application/json ; charset=utf-8",
+						success: function(data) {
+							//追加信息
+							//viewModel.data.push(data.rows);
+							var rowDateArr = data.rows;
+							for(var i=0;i<rowDateArr.length;i++){
+								viewModel.data.push(rowDateArr[i]);
+							}
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+							alert(XMLHttpRequest.errorMsg);
+						}
+					})
+                }
+                	
+                	refulshDate();
+        		 //构造控件实例
+                var listview = UM.listview("#listview");
+                //添加控件方法
+                /**/listview.on("pullDown", function (sender) {
+                    refulshDate();
+                    sender.refresh(); 
+                });
+               /**/ listview.on("pullUp", function (sender) {
+                    refulshNextDate();
+                    sender.refresh(); 
+                }); 
+                listview.on("itemDelete", function (sender, args) {
+                    //这是可以编写行删除逻辑，参数sender即为当前列表实例对象，args对象有2个属性，即rowIndex(行索引)和$target(目标行的jquery对象)
+                    /* args.$target.slideUp(500,function(){
+                     var item = viewModel.data()[args.rowIndex];
+                     viewModel.data.remove(item);
+                     });*/
+                });
+                listview.on("itemClick", function (sender, args) {
+                    //这里可以处理行点击事件，参数sender即为当前列表实例对象，args对象有2个属性，即rowIndex(行索引)和$target(目标行的jquery对象)
+                    var rowId = $(".rownumid")[args.rowIndex].firstChild.data;
+                    
+                    summer.openWin({
+					    id: 'messageDetailPage',
+					    url: 'html/message_detail.html',
+					    pageParam: {
+					        vehicleId: rowId
+					    }
+					});
+                });
+                listview.on("itemSwipeLeft", function (sender, args) {
+                    //这里可以处理行左滑事件，参数sender即为当前列表实例对象，args对象有2个属性，即rowIndex(行索引)和$target(目标行的jquery对象)
+                    //sender.showItemMenu(args.$target);
+                });
+        		listview.on("tapHold", function () {
+                   //这里可以处理长按事件
+        		   //console.log("您长按了列表！");
+                });
+            });
+        </script>
+	</body>	
+</html>

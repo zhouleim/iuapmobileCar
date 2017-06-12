@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gateway>
+
+	<service id="ncLoginService" provider="nclocator" method="umLogin"
+		returntype="uap.vo.umobile.UMResult">
+		<properties>
+			<params>context:uap.vo.umobile.UMContext</params>
+			<interface>uap.itf.umoblie.IUapMoblieServ</interface>
+			<security>false</security>
+		</properties>
+		<ds-set>
+			<datasource name="nc63" />
+		</ds-set>
+	</service>
+	
+	<service id="getDeviceStatusService" provider="http" method="post"
+		returntype="String">
+		<properties>
+		</properties>
+		<ds-set>
+			<datasource name="emm_url" />
+		</ds-set>
+	</service>
+	
+</gateway>
